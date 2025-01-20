@@ -21,4 +21,8 @@ export default defineNuxtConfig({
       dark: 'auto',
     },
   },
+  app: {
+    baseURL: '/docxed-quick/',
+    buildAssetsDir: 'assets',
+  },
 })
