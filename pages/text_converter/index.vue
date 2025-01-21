@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTitle } from '@vueuse/core'
+const { copy } = useClipboard()
 
 useTitle('Text converter')
 
@@ -27,81 +28,75 @@ const resultReplace = computed(() => {
 <template>
   <q-page padding>
     <p class="text-h5">Text converter</p>
-    <div class="column q-gutter-md">
-      <div class="col q-gutter-xs">
-        <p>Lower case</p>
-        <q-input v-model="textToLower" type="textarea" label="Text" filled clearable autogrow />
-        <q-input
-          :model-value="textToLower.toLowerCase()"
-          type="textarea"
-          label="Result"
-          outlined
-          autogrow
-          readonly
-        >
-          <template v-slot:append>
-            <q-icon
-              name="content_copy"
-              class="cursor-pointer"
-              @click="copyToClipboard(textToLower.toLowerCase())"
-            />
-          </template>
-        </q-input>
-      </div>
-      <div class="col q-gutter-xs">
-        Text replace
-        <q-input
-          v-model="textToReplace"
-          type="textarea"
-          label="Text to replace"
-          filled
-          clearable
-          autogrow
-        />
-        <q-icon
-          name="add"
-          class="cursor-pointer"
-          @click="replaceList.push({ find: '', replace: '' })"
-          color="primary"
-          size="sm"
-        />
-        <div
-          class="row q-gutter-x-xs"
-          v-for="(replace, index) in replaceList"
-          :key="`replace-${index}`"
-        >
-          <div class="col">
-            <q-input v-model="replace.find" label="Find" filled />
-          </div>
-          <div class="col">
-            <q-input v-model="replace.replace" label="Replace" filled>
-              <template v-slot:append>
-                <q-icon
-                  name="delete"
-                  class="cursor-pointer"
-                  @click="replaceList.splice(replaceList.indexOf(replace), 1)"
-                />
-              </template>
-            </q-input>
-          </div>
+    <section class="q-col-gutter-y-sm">
+      <p>Lower case</p>
+      <q-input v-model="textToLower" type="textarea" label="Text" filled clearable autogrow />
+      <q-input
+        :model-value="textToLower.toLowerCase()"
+        type="textarea"
+        label="Result"
+        outlined
+        autogrow
+        readonly
+      >
+        <template v-slot:append>
+          <q-icon
+            name="content_copy"
+            class="cursor-pointer"
+            @click="copy(textToLower.toLowerCase())"
+          />
+        </template>
+      </q-input>
+
+      <br />
+      <p>Text replace</p>
+      <q-input
+        v-model="textToReplace"
+        type="textarea"
+        label="Text to replace"
+        filled
+        clearable
+        autogrow
+      />
+      <q-icon
+        name="add"
+        class="cursor-pointer"
+        @click="replaceList.push({ find: '', replace: '' })"
+        color="primary"
+        size="sm"
+      />
+      <div
+        class="row q-col-gutter-x-xs"
+        v-for="(replace, index) in replaceList"
+        :key="`replace-${index}`"
+      >
+        <div class="col">
+          <q-input v-model="replace.find" label="Find" filled dense />
         </div>
-        <q-input
-          :model-value="resultReplace"
-          type="textarea"
-          label="Result"
-          outlined
-          autogrow
-          readonly
-        >
-          <template v-slot:append>
-            <q-icon
-              name="content_copy"
-              class="cursor-pointer"
-              @click="copyToClipboard(resultReplace)"
-            />
-          </template>
-        </q-input>
+        <div class="col">
+          <q-input v-model="replace.replace" label="Replace" filled dense>
+            <template v-slot:append>
+              <q-icon
+                name="delete"
+                class="cursor-pointer"
+                @click="replaceList.splice(replaceList.indexOf(replace), 1)"
+              />
+            </template>
+          </q-input>
+        </div>
       </div>
-    </div>
+      <q-input
+        :model-value="resultReplace"
+        type="textarea"
+        label="Result"
+        outlined
+        autogrow
+        readonly
+      >
+        <template v-slot:append>
+          <q-icon name="content_copy" class="cursor-pointer" @click="copy(resultReplace)" />
+        </template>
+      </q-input>
+    </section>
   </q-page>
 </template>

@@ -20,6 +20,9 @@ export default defineNuxtConfig({
       },
       dark: 'auto',
     },
+    components: {
+      defaults: {},
+    },
   },
   app: {
     baseURL: '/docxed-quick/',

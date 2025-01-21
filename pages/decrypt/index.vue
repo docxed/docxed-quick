@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTitle } from '@vueuse/core'
+const { copy } = useClipboard()
 import CryptoJS from 'crypto-js'
-import { copyToClipboard } from '~/utils'
 
 useTitle('Decrypt')
 
@@ -38,19 +38,39 @@ watchEffect(() => {
 <template>
   <q-page padding>
     <p class="text-h5">Decrypt</p>
-    <section class="q-gutter-xs">
+    <section class="q-col-gutter-y-sm">
       <q-input v-model="text" type="textarea" label="Encrypted text" filled clearable autogrow />
-      <q-input v-model="key" label="Key" filled clearable />
-      <q-input v-model="iv" label="IV" filled clearable />
-      <section class="text-center q-gutter-xs">
-        <q-btn color="warning" icon="clear" label="Clear text" @click="text = ''" />
-        <q-btn color="negative" icon="clear" label="Clear all" @click="onClear()" />
-      </section>
-    </section>
-    <section class="q-mt-md">
+      <div class="row q-col-gutter-xs">
+        <div class="col">
+          <q-input v-model="key" label="Key" filled clearable icon="lock" />
+        </div>
+        <div class="col">
+          <q-input v-model="iv" label="IV" filled clearable />
+        </div>
+      </div>
+      <div class="row q-col-gutter-xs">
+        <div class="col">
+          <q-btn
+            color="warning"
+            icon="clear"
+            label="Clear text"
+            @click="text = ''"
+            class="full-width"
+          />
+        </div>
+        <div class="col">
+          <q-btn
+            color="negative"
+            icon="delete_forever"
+            label="Clear all"
+            @click="onClear()"
+            class="full-width"
+          />
+        </div>
+      </div>
       <q-input v-model="result" type="textarea" label="text" outlined autogrow readonly>
         <template v-slot:append>
-          <q-icon name="content_copy" class="cursor-pointer" @click="copyToClipboard(result)" />
+          <q-icon name="content_copy" class="cursor-pointer" @click="copy(result)" />
         </template>
       </q-input>
     </section>
