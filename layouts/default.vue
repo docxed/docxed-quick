@@ -14,7 +14,7 @@ const menus = reactive([
   },
   {
     label: 'Text converter',
-    to: '/text-converter',
+    to: '/text_converter',
   },
 ])
 
