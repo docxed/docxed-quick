@@ -16,6 +16,14 @@ const menus = reactive([
     label: 'Text converter',
     to: '/text_converter',
   },
+  {
+    label: 'JSON key diff',
+    to: '/json_key_diff',
+  },
+  {
+    label: 'JSON value diff',
+    to: '/json_value_diff',
+  },
 ])
 
 function toggleLeftDrawer() {
